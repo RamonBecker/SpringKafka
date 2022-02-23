@@ -1,6 +1,7 @@
 package br.com.springkafka.producer;
 
-import br.com.springkafka.domain.People;
+
+import br.com.springkafka.People;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
