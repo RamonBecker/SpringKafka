@@ -1,13 +1,11 @@
 package br.com.springkafka.consumer;
 
-import br.com.springkafka.Car;
 import br.com.springkafka.People;
 import br.com.springkafka.domain.Book;
 import br.com.springkafka.repository.PeopleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
@@ -17,13 +15,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @AllArgsConstructor
-@KafkaListener(topics = "${topic.name}")
 public class PeopleConsumer {
 
 
     private final PeopleRepository repository;
 
-    @KafkaHandler
+    @KafkaListener(topics = "${topic.name}")
     public void consumer(ConsumerRecord<String, People> record, Acknowledgment ack){
         var people = record.value();
 
@@ -46,18 +43,6 @@ public class PeopleConsumer {
         );
 
         repository.save(peopleEntity);
-        ack.acknowledge();
-    }
-
-    @KafkaHandler
-    public void consumeCar(Car car, Acknowledgment ack ){
-        log.info("Message received: "+car.toString());
-        ack.acknowledge();
-    }
-
-    @KafkaHandler(isDefault = true)
-    public void unknown(Object obj, Acknowledgment ack ){
-        log.info("Message received: "+obj);
         ack.acknowledge();
     }
 }
